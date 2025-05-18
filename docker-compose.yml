@@ -37,6 +37,18 @@ services:
     networks:
       - app_network
 
+  flower:
+    image: mher/flower
+    container_name: flower_chatbot
+    command: celery --broker=redis://redis:6379/0 flower --port=5555
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+      - celery_worker
+    networks:
+      - app_network
+
 networks:
   app_network:
     driver: bridge
